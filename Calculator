@@ -1,0 +1,49 @@
+def add(x_val, y_val):
+    return x_val + y_val
+
+def subtract(x_val, y_val):
+    return x_val - y_val
+
+def multiply(x_val, y_val):
+    return x_val * y_val
+
+def divide(x_val, y_val):
+    if y_val == 0:
+        return "Error! Division by zero."
+    return x_val / y_val
+
+def Arthmetic_operations():
+    print("Select operation:")
+    print("1. Add")
+    print("2. Subtract")
+    print("3. Multiply")
+    print("4. Divide")
+
+    while True:
+        choice = input("Enter choice (1 or 2 or 3 or 4): ")
+
+        if choice in ['1', '2', '3', '4']:
+            try:
+                val1 = float(input("Enter first number: "))
+                val2 = float(input("Enter second number: "))
+            except ValueError:
+                print("Invalid input! Please enter numerical values.")
+                continue
+
+            if choice == '1':
+                print(f"{val1} + {val2} = {add(val1, val2)}")
+            elif choice == '2':
+                print(f"{val1} - {val2} = {subtract(val1, val2)}")
+            elif choice == '3':
+                print(f"{val1} * {val2} = {multiply(val1, val2)}")
+            elif choice == '4':
+                print(f"{val1} / {val2} = {divide(val1, val2)}")
+
+            next_calculation = input("Do you want to perform another calculation? (yes/no): ").lower()
+            if next_calculation != 'yes':
+                break
+        else:
+            print("Invalid input! Please select a valid operation.")
+
+if __name__ == "__main__":
+    Arthmetic_operations()
