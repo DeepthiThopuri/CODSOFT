@@ -1,0 +1,102 @@
+import pickle
+import os
+
+# File to store contacts
+CONTACTS_FILE = 'contacts.pkl'
+
+# Load contacts from file
+def loading_contacts():
+    if os.path.exists(CONTACTS_FILE):
+        with open(CONTACTS_FILE, 'rb') as file:
+            return pickle.load(file)
+    return {}
+
+# Save contacts to file
+def saving_contacts(contacts):
+    with open(CONTACTS_FILE, 'wb') as file:
+        pickle.dump(contacts, file)
+
+# Add a new contact
+def adding_contact(contacts):
+    name = input("Enter name: ")
+    phone = input("Enter phone number: ")
+    email = input("Enter email: ")
+    address = input("Enter address: ")
+    contacts[name] = {'phone': phone, 'email': email, 'address': address}
+    print(f"Contact '{name}' added.")
+
+# View all contacts
+def view_contacts(contacts):
+    if not contacts:
+        print("No contacts available.")
+        return
+    for name, info in contacts.items():
+        print(f"Name: {name}, Phone: {info['phone']}")
+
+# Search for a contact
+def searching_contact(contacts):
+    search_term = input("Enter name or phone number to search: ")
+    found = False
+    for name, info in contacts.items():
+        if search_term.lower() in name.lower() or search_term in info['phone']:
+            print(f"Name: {name}, Phone: {info['phone']}, Email: {info['email']}, Address: {info['address']}")
+            found = True
+    if not found:
+        print("No matching contact found.")
+
+# Update a contact
+def updating_contact(contacts):
+    name = input("Enter the name of the contact to update: ")
+    if name not in contacts:
+        print(f"No contact found with the name '{name}'.")
+        return
+    phone = input(f"Enter new phone number (current: {contacts[name]['phone']}): ")
+    email = input(f"Enter new email (current: {contacts[name]['email']}): ")
+    address = input(f"Enter new address (current: {contacts[name]['address']}): ")
+    contacts[name] = {'phone': phone, 'email': email, 'address': address}
+    print(f"Contact '{name}' updated.")
+
+# Delete a contact
+def deleting_contact(contacts):
+    name = input("Enter the name of the contact to delete: ")
+    if name in contacts:
+        del contacts[name]
+        print(f"Contact '{name}' deleted.")
+    else:
+        print(f"No contact found with the name '{name}'.")
+
+# User interface
+def user_interface():
+    contacts = loading_contacts()
+    
+    while True:
+        print("\nContact Manager")
+        print("1. Add Contact")
+        print("2. View Contact List")
+        print("3. Search Contact")
+        print("4. Update Contact")
+        print("5. Delete Contact")
+        print("6. Exit")
+        
+        choice = input("Choose an option (1-6): ")
+        
+        if choice == '1':
+            adding_contact(contacts)
+        elif choice == '2':
+            view_contacts(contacts)
+        elif choice == '3':
+            searching_contact(contacts)
+        elif choice == '4':
+            updating_contact(contacts)
+        elif choice == '5':
+            deleting_contact(contacts)
+        elif choice == '6':
+            saving_contacts(contacts)
+            print("Exiting. Contacts saved.")
+            break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 6.")
+
+# Run the user interface
+if __name__ == "__main__":
+    user_interface()
